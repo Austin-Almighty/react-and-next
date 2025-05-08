@@ -1,7 +1,6 @@
 import { db } from '../../fireBaseConfig';
-import { collection, addDoc, getDocs, Timestamp, deleteDoc, doc, DocumentReference } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, DocumentReference } from 'firebase/firestore';
 
-const transactionsRef = collection(db, 'transactions');
 
 interface transaction {
     id: string;
