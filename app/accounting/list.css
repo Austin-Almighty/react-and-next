@@ -1,6 +1,58 @@
-.list, .front {
+.list {
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
-    width: 50%;
+    width: 35%;
+    min-width: 25em;
+    font-size: 1.2em;
+    line-height: 2em;
+    margin-bottom: 1em;
+}
+
+.front {
+    display: flex;
+    gap: 2em;
+    position: relative;
+}
+
+
+.sum {
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    font-weight: 700;
+}
+
+.income, .expense {
+    text-align: center;
+    width: 7em;
+}
+.income {
+    color: green;
+}
+
+.expense {
+    color: red;
+}
+
+.deleteBtn {
+    font-size: 0.7em;
+    padding: 0.5em;
+    color: #000;
+    background-color: rgb(238, 238, 238)
+}
+
+#homepageBtn {
+    font-size: 1em;
+    background-color: rgb(238, 238, 238);
+    color: #000;
+    padding: 0.5em;
+
+}
+
+section {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
 }

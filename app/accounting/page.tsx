@@ -1,9 +1,11 @@
 'use client';
 import React from 'react'
+import Link from "next/link";
+import './accounting.css';
 import {Selector, Amount, Description, SubmitBtn} from './form'
 import { useState } from 'react';
 import { RenderItems, Sum } from './list';
-import './accounting.css';
+
 
 
 
@@ -40,6 +42,12 @@ const accounting = () => {
         ))}
         </div>
         <Sum items={items}/>
+        <section>
+          <Link href='/accounting'>
+            <button id="homepageBtn">返回首頁</button>
+          </Link>
+        </section>
+        
     </>
   )
 }

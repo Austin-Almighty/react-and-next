@@ -27,7 +27,7 @@ export function RenderItems({ option, amount, description, onDelete }: ItemProps
       <div className='list'>
         <div className='front'>
           <div className={option === "income" ? "income" : "expense"}>{option === "income" ? "+" + amount : "-" + amount}</div>
-          <div>{description}</div>
+          <div className='des'>{description}</div>
         </div>
         <div className='back'>
           <button className='deleteBtn' onClick={onDelete}>刪除</button>
