@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { useState } from 'react';
 
 type Option = "income" | "expense";
 interface SelectorProps {
@@ -29,7 +28,6 @@ interface SubmitBtnProps {
 
 
 export function Selector({option, setOption}:SelectorProps) {
-    // const [option, setOption] = useState('expense');
     return(
         <>
             <select value={option} onChange={(e)=> setOption(e.target.value as Option)}>
@@ -41,7 +39,6 @@ export function Selector({option, setOption}:SelectorProps) {
 }
 
 export function Amount({amount, setAmount}: AmountProps) {
-    // const [amount, setAmount] = useState("");
     return(
         <>
             <input type="number" inputMode='numeric' id='amount' placeholder='金額' value={amount === undefined?"":amount} onChange={(e)=>setAmount(e.target.value)}></input>
@@ -50,7 +47,6 @@ export function Amount({amount, setAmount}: AmountProps) {
 }
 
 export function Description({description, setDescription}: DescriptionProps) {
-    // const [description, setDescription] = useState("");
     return(
         <>
             <input type='text' id="description" placeholder='紀錄描述' value={description} onChange={e=>setDescription(e.target.value)}></input>
