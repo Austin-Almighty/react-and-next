@@ -36,7 +36,7 @@ export function RenderItems({ option, amount, description, onDelete }: ItemProps
     );
 }
 
-export function Sum({ items }: { items: { option: "income" | "expense"; amount: string; description: string }[] }) {
+export function Sum({ items }: SumProps) {
 
     const sum = items.reduce((total, item)=> item.option === "income" ? total + Number(item.amount) : total - Number(item.amount), 0)
     return (

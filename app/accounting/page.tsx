@@ -1,15 +1,15 @@
 'use client';
-import React from 'react'
-import Link from "next/link";
+import React from 'react';
 import './accounting.css';
-import {Selector, Amount, Description, SubmitBtn} from './form'
+import Link from "next/link";
+import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState } from 'react';
 import { RenderItems, Sum } from './list';
 
 
 
 
-const accounting = () => {
+const Accounting = () => {
     const [option, setOption] = useState<"expense" | "income">('expense');
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -43,7 +43,7 @@ const accounting = () => {
         </div>
         <Sum items={items}/>
         <section>
-          <Link href='/accounting'>
+          <Link href='/'>
             <button id="homepageBtn">返回首頁</button>
           </Link>
         </section>
@@ -52,4 +52,4 @@ const accounting = () => {
   )
 }
 
-export default accounting
+export default Accounting
