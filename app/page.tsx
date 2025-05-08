@@ -14,7 +14,7 @@ export default function Home() {
       </main>
       <section>
         <Link href='/accounting'>
-          <button>點此開始</button>
+          <button className="start">點此開始</button>
         </Link>
       </section>
     </>

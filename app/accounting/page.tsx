@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import './accounting.css';
+import '../accounting.css';
 import Link from "next/link";
 import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState } from 'react';

@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import '../accounting.css';
 
 type Option = "income" | "expense";
 interface SelectorProps {
@@ -30,7 +31,7 @@ interface SubmitBtnProps {
 export function Selector({option, setOption}:SelectorProps) {
     return(
         <>
-            <select value={option} onChange={(e)=> setOption(e.target.value as Option)}>
+            <select value={option} onChange={(e)=> setOption(e.target.value as Option)} className='select'>
                 <option value="income">收入</option>
                 <option value="expense">支出</option>
             </select>
@@ -66,5 +67,5 @@ export function SubmitBtn({ option, amount, description, setAmount, setDescripti
       setDescription('');
     };
   
-    return <button id="submitBtn" onClick={handleClick}>新增紀錄</button>;
+    return <button className="submitBtn" onClick={handleClick}>新增紀錄</button>;
   }

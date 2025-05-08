@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
-import './list.css';
+import '../list.css';
+import "../accounting.css"
 
 
 interface ItemProps {
