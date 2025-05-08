@@ -3,9 +3,9 @@ import React from 'react';
 import '../accounting.css';
 import Link from "next/link";
 import {Selector, Amount, Description, SubmitBtn} from './form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
-
+import { addTransaction, fetchTransactions, deleteTransaction } from '../firebase/firestore';
 
 
 
@@ -13,12 +13,39 @@ const Accounting = () => {
     const [option, setOption] = useState<"expense" | "income">('expense');
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [items, setItems] = useState<{option: "income" | "expense", amount:string, description: string}[]>([]);
-    const onSubmit = (option: "income" | "expense", amount:string, description: string) => {
-      setItems(existing => [...existing, { option, amount, description }]);
+    const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: string; description: string }[]>([]);
+
+    useEffect(()=>{
+      const loadTransactions = async () => {
+        const transactions = await fetchTransactions();
+        setItems(transactions);
+      };
+      loadTransactions();
+    }, []);
+
+    // const onSubmit = (option: "income" | "expense", amount:string, description: string) => {
+    //   setItems(existing => [...existing, { option, amount, description }]);
+    // };
+
+    const onSubmit = async () => {
+      const newTransaction: Omit<{ id: string; option: "income" | "expense"; amount: string; description: string }, 'id'> = {
+        option,
+        amount,
+        description
+      };
+      const docRef = await addTransaction(newTransaction);
+      setItems((prevItems) => [
+        ...prevItems,
+        { id: docRef.id, ...newTransaction }
+      ]);
+      setAmount('');
+      setDescription('');
     };
-    const onDelete = (index:number) => {
-      setItems(existing => existing.filter((_, i) => i !== index))
+
+    const onDelete = async (index: number) => {
+      const itemToDelete = items[index];
+      await deleteTransaction(itemToDelete.id);
+      setItems(existing => existing.filter((_, i) => i !== index));
     };
 
   return (
