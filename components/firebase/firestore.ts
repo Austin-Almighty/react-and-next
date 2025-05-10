@@ -1,7 +1,7 @@
-import { db } from '../../fireBaseConfig';
+import { db } from '../../../fireBaseConfig';
 import { collection, addDoc, getDocs, deleteDoc, doc, DocumentReference } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../fireBaseConfig';
+import { auth } from '../../../fireBaseConfig';
 
 
 interface transaction {

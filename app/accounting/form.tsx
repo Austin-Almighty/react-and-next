@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import '../accounting.css';
+import './accounting.css';
 
 type Option = "income" | "expense";
 interface SelectorProps {

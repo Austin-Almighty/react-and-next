@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import '../accounting.css';
+import './accounting.css';
 import Link from "next/link";
 import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState, useEffect } from 'react';
@@ -9,25 +9,22 @@ import { addTransaction, fetchTransactions, deleteTransaction } from '../firebas
 
 
 
-const Accounting = () => {
+export default function Accounting() {
     const [option, setOption] = useState<"expense" | "income">('expense');
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: string; description: string }[]>([]);
 
     useEffect(()=>{
-      const loadTransactions = async () => {
+      async function loadTransactions() {
         const transactions = await fetchTransactions();
         setItems(transactions);
       };
       loadTransactions();
     }, []);
 
-    // const onSubmit = (option: "income" | "expense", amount:string, description: string) => {
-    //   setItems(existing => [...existing, { option, amount, description }]);
-    // };
 
-    const onSubmit = async () => {
+    async function onSubmit() {
       const newTransaction: Omit<{ id: string; option: "income" | "expense"; amount: string; description: string }, 'id'> = {
         option,
         amount,
@@ -42,7 +39,7 @@ const Accounting = () => {
       setDescription('');
     };
 
-    const onDelete = async (index: number) => {
+    async function onDelete(index: number) {
       const itemToDelete = items[index];
       await deleteTransaction(itemToDelete.id);
       setItems(existing => existing.filter((_, i) => i !== index));
@@ -78,5 +75,3 @@ const Accounting = () => {
     </>
   )
 }
-
-export default Accounting
