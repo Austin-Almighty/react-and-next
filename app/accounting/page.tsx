@@ -13,7 +13,7 @@ export default function Accounting() {
     const [option, setOption] = useState<"expense" | "income">('expense');
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: string; description: string }[]>([]);
+    const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: number; description: string }[]>([]);
 
     useEffect(()=>{
       async function loadTransactions() {
@@ -25,9 +25,12 @@ export default function Accounting() {
 
 
     async function onSubmit() {
-      const newTransaction: Omit<{ id: string; option: "income" | "expense"; amount: string; description: string }, 'id'> = {
+      const parsedAmount = Math.abs(Number(amount));
+      const finalAmount = option === "income" ? parsedAmount : -parsedAmount;
+
+      const newTransaction: Omit<{ id: string; option: "income" | "expense"; amount: number; description: string }, 'id'> = {
         option,
-        amount,
+        amount: finalAmount,
         description
       };
       const docRef = await addTransaction(newTransaction);

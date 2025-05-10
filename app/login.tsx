@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import { signIn, signUp } from './components/firebase/firestore';
+// 'use client';
+// import React from 'react';
+// import { signIn, signUp } from './components/firebase/firestore';
 
 // export function LoginForm({loginEmail: string, loginPassword: string, registerEmail: string, registerPassword: string}) {
 //     return(
