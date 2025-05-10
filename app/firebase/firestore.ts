@@ -52,34 +52,3 @@ export async function deleteTransaction(transactionId: string) {
   }
 };
 
-
-export async function signUp(email:string, password:string) {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    // User signed up successfully
-  } catch (error) {
-    console.error('Error signing up:', error);
-  }
-};
-
-
-
-export const signIn = async (email:string, password:string) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    // User signed in successfully
-  } catch (error) {
-    console.error('Error signing in:', error);
-  }
-};
-
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in
-  } else {
-    // User is signed out
-  }
-});
