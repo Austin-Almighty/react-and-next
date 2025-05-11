@@ -1,14 +1,25 @@
 "use client";
-import React from 'react';
-import Link from "next/link";
+import React, {useEffect, useState} from 'react';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from "../fireBaseConfig"
+
 
 import "./index.css";
-// import { LoginForm } from "./login";
+import { Dashboard, LoginForm, RegisterForm } from "./login";
 
 export default function Home() {
+const [loginEmail, setLoginEmail] = useState<string>("");
+const [loginPassword, setLoginPassword] = useState<string>("");
+const [registerEmail, setRegisterEmail] = useState<string>("");
+const [registerPassword, setRegisterPassword] = useState<string>("");
+const [user, setUser] = useState<User | null>(null);
 
-
-  
+useEffect(() => {
+  const signedOut = onAuthStateChanged(auth, (firebaseUser) => {
+    setUser(firebaseUser);
+  });
+  return () => signedOut();
+}, []);
 
   return (
     <>
@@ -18,12 +29,13 @@ export default function Home() {
       <main>
         <div>歡迎光臨我的頁面</div>
       </main>
-      <section>
-        <Link href='/accounting'>
-          <button className="start">點此開始</button>
-        </Link>
+      
+      <section className='loginSection'>
+        <div className='loginImport'>
+          {user ? <Dashboard email={user.email ?? "查無email"}/> : <LoginForm loginEmail={loginEmail} loginPassword={loginPassword} setLoginEmail={setLoginEmail} setLoginPassword={setLoginPassword}/>}
+          <RegisterForm registerEmail={registerEmail} registerPassword={registerPassword} setRegisterEmail={setRegisterEmail} setRegisterPassword={setRegisterPassword}/>
+        </div>
       </section>
-     
     </>
   );
 }

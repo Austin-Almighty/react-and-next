@@ -73,3 +73,14 @@ section {
     color: #000;
     background-color: rgb(238, 238, 238);
 }
+
+.password-length {
+    margin-block: 1rem;
+}
+
+.dashboard button {
+    font-size: 1.5rem;
+    padding: 0.7rem;
+    color: #000;
+    background-color: rgb(238, 238, 238);
+}

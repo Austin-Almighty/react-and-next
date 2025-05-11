@@ -6,10 +6,12 @@ import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
 import { addTransaction, fetchTransactions, deleteTransaction } from '../firebase/firestore';
-
-
+import { getAuth } from 'firebase/auth';
 
 export default function Accounting() {
+    const auth = getAuth();
+    const userId = auth.currentUser?.uid;
+
     const [option, setOption] = useState<"expense" | "income">('expense');
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
@@ -17,11 +19,12 @@ export default function Accounting() {
 
     useEffect(()=>{
       async function loadTransactions() {
-        const transactions = await fetchTransactions();
+        if (!userId) return;
+        const transactions = await fetchTransactions(userId);
         setItems(transactions);
       };
       loadTransactions();
-    }, []);
+    }, [userId]);
 
 
     async function onSubmit() {
@@ -33,7 +36,7 @@ export default function Accounting() {
         amount: finalAmount,
         description
       };
-      const docRef = await addTransaction(newTransaction);
+      const docRef = await addTransaction(newTransaction, userId!);
       setItems((prevItems) => [
         ...prevItems,
         { id: docRef.id, ...newTransaction }
