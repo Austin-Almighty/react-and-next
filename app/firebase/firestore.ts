@@ -27,8 +27,12 @@ export async function addTransaction(
     const docRef = await addDoc(collection(db, 'transactions'), finalTransaction);
     return docRef;
 
-  } catch (error) {
-    console.error('Error adding transaction:', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error adding transaction:', error.message);
+    } else {
+      console.error('Unknown error adding transaction:', error);
+    }
     throw error;
   }
 };
@@ -50,8 +54,12 @@ export async function fetchTransactions(userId: string): Promise<transaction[]> 
       })
       .filter(transaction => transaction.userId === userId);
     return transactions;
-  } catch (error) {
-    console.error('Error fetching transactions:', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error fetching transactions:', error.message);
+    } else {
+      console.error('Unknown error fetching transactions:', error);
+    }
     return [];
   }
 };
@@ -61,8 +69,12 @@ export async function deleteTransaction(transactionId: string) {
   try {
     const transactionDoc = doc(db, 'transactions', transactionId);
     await deleteDoc(transactionDoc);
-  } catch (error) {
-    console.error('Error deleting transaction:', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Error deleting transaction:', error.message);
+    } else {
+      console.error('Unknown error deleting transaction:', error);
+    }
   }
 };
 
@@ -73,8 +85,12 @@ export async function signIn(auth: Auth, email: string, password: string): Promi
     const user = userCredential.user;
     //Change state to login
     console.log(user);
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log('Unknown error:', error);
+    }
   }
 }
 
@@ -86,8 +102,12 @@ export async function signUp(auth: Auth, email: string, password: string): Promi
     const user = userCredential.user;
     alert("註冊成功！請於上方登入");
     console.log(`帳號${user}註冊成功`)
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log('Unknown error:', error);
+    }
   }
 }
 
@@ -95,7 +115,11 @@ export async function signOutUser(auth: Auth): Promise<void> {
   try {
     await signOut(auth);
     console.log("User signed out successfully");
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error:unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    } else {
+      console.log('Unknown error:', error);
+    }
   }
 }
