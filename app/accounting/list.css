@@ -1,3 +1,7 @@
+.formSection {
+    color:#000;
+}
+
 .list {
     display: flex;
     justify-content: space-between;
@@ -22,6 +26,11 @@
     justify-content: center;
     margin-top: 2rem;
     font-weight: 700;
+    color: #000;
+}
+
+.des {
+    color: #000;
 }
 
 .income, .expense {

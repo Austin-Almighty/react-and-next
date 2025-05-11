@@ -26,12 +26,13 @@ main {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    color:#000;
 }
 
 section {
     display: flex;
     justify-content: center;
-
+    color: #000;
 }
 
 .start {
