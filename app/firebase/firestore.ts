@@ -1,6 +1,7 @@
 import { db} from '../../fireBaseConfig';
 import { collection, addDoc, getDocs, deleteDoc, doc, DocumentReference } from 'firebase/firestore';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { Auth, AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
 
 
 interface transaction {
@@ -81,15 +82,24 @@ export async function deleteTransaction(transactionId: string) {
 export async function signIn(auth: Auth, email: string, password: string): Promise<void> {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    if (!userCredential) alert("查無此帳號");
     const user = userCredential.user;
     //Change state to login
     console.log(user);
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.log(error.message);
-    } else {
-      console.log('Unknown error:', error);
+   if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case AuthErrorCodes.INVALID_EMAIL:
+          alert("無效的電子郵件格式");
+          break;
+        case AuthErrorCodes.USER_DELETED:
+          alert("查無此帳號");
+          break;
+        case AuthErrorCodes.INVALID_PASSWORD:
+          alert("密碼錯誤");
+          break;
+        default:
+          alert("登入失敗: " + error.message);
+      }
     }
   }
 }
@@ -103,8 +113,18 @@ export async function signUp(auth: Auth, email: string, password: string): Promi
     alert("註冊成功！請於上方登入");
     console.log(`帳號${user}註冊成功`)
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.log(error.message);
+    if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case AuthErrorCodes.EMAIL_EXISTS:
+          alert("Email已經註冊過")
+          break;
+        case AuthErrorCodes.INVALID_EMAIL:
+          alert("無效的email")
+          break;
+        default:
+          alert("註冊失敗" + error.message)  
+          break;
+      }
     } else {
       console.log('Unknown error:', error);
     }
