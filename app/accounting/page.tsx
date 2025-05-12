@@ -6,7 +6,7 @@ import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
 import { addTransaction, fetchTransactions, deleteTransaction } from '../firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Accounting() {
     const auth = getAuth();
@@ -17,15 +17,27 @@ export default function Accounting() {
     const [description, setDescription] = useState<string>("");
     const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: number; description: string }[]>([]);
 
-    useEffect(()=>{
-      async function loadTransactions() {
-        if (!userId) return;
-        const transactions = await fetchTransactions(userId);
-        setItems(transactions);
-      };
-      loadTransactions();
-    }, [userId]);
+    // useEffect(()=>{
+    //   async function loadTransactions() {
+    //     if (!userId) return;
+    //     const transactions = await fetchTransactions(userId);
+    //     setItems(transactions);
+    //   };
+    //   loadTransactions();
+    // }, [userId]);
 
+    useEffect(() => {
+      const loadTransactions = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const transactions = await fetchTransactions(user.uid);
+        setItems(transactions);
+      } else {
+        setItems([]);
+      }
+    });
+
+    return () => loadTransactions();
+  }, []);
 
     async function onSubmit() {
       const parsedAmount = Math.abs(Number(amount));
