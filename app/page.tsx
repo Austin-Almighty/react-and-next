@@ -13,13 +13,24 @@ const [loginPassword, setLoginPassword] = useState<string>("");
 const [registerEmail, setRegisterEmail] = useState<string>("");
 const [registerPassword, setRegisterPassword] = useState<string>("");
 const [user, setUser] = useState<User | null>(null);
+const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   const signedOut = onAuthStateChanged(auth, (firebaseUser) => {
     setUser(firebaseUser);
+    setLoading(false);
   });
   return () => signedOut();
 }, []);
+
+if (loading) {
+  return (
+    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <p className="text-lg text-gray-600">載入中，請稍候...</p>
+    </div>
+  );
+}
 
   return (
     <>
@@ -39,5 +50,3 @@ useEffect(() => {
     </>
   );
 }
-
-

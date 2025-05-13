@@ -5,7 +5,7 @@ import Link from "next/link";
 import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
-import { addTransaction, fetchTransactions, deleteTransaction } from '../firebase/firestore';
+import { addTransaction, fetchTransactions, deleteTransaction, signOutUser } from '../firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Accounting() {
@@ -16,6 +16,7 @@ export default function Accounting() {
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: number; description: string }[]>([]);
+    const [loading, setLoading] = useState(true);
 
     // useEffect(()=>{
     //   async function loadTransactions() {
@@ -31,13 +32,25 @@ export default function Accounting() {
       if (user) {
         const transactions = await fetchTransactions(user.uid);
         setItems(transactions);
+        setLoading(false);
       } else {
         setItems([]);
+        setLoading(false);
+        signOutUser(auth);
       }
     });
 
     return () => loadTransactions();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen space-y-4">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-lg text-gray-600">載入中，請稍候...</p>
+      </div>
+    );
+  }
 
     async function onSubmit() {
       const parsedAmount = Math.abs(Number(amount));
