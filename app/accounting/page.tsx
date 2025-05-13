@@ -5,7 +5,7 @@ import Link from "next/link";
 import {Selector, Amount, Description, SubmitBtn} from './form';
 import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
-import { addTransaction, fetchTransactions, deleteTransaction, signOutUser } from '../firebase/firestore';
+import { addTransaction, fetchTransactions, deleteTransaction} from '../firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
