@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import { RenderItems, Sum } from './list';
 import { addTransaction, fetchTransactions, deleteTransaction, signOutUser } from '../firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 export default function Accounting() {
     const auth = getAuth();
+    const router = useRouter();
     const userId = auth.currentUser?.uid;
 
     const [option, setOption] = useState<"expense" | "income">('expense');
@@ -18,30 +20,19 @@ export default function Accounting() {
     const [items, setItems] = useState<{ id: string; option: "income" | "expense"; amount: number; description: string }[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(()=>{
-    //   async function loadTransactions() {
-    //     if (!userId) return;
-    //     const transactions = await fetchTransactions(userId);
-    //     setItems(transactions);
-    //   };
-    //   loadTransactions();
-    // }, [userId]);
-
     useEffect(() => {
-      const loadTransactions = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const transactions = await fetchTransactions(user.uid);
-        setItems(transactions);
-        setLoading(false);
-      } else {
-        setItems([]);
-        setLoading(false);
-        signOutUser(auth);
-      }
-    });
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const transactions = await fetchTransactions(user.uid);
+          setItems(transactions);
+          setLoading(false);
+        } else {
+          router.replace('/');
+        }
+      });
 
-    return () => loadTransactions();
-  }, []);
+      return () => unsubscribe();
+    }, []);
 
   if (loading) {
     return (
