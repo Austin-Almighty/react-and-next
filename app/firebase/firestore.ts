@@ -99,6 +99,7 @@ export async function signIn(auth: Auth, email: string, password: string): Promi
           break;
         case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
           alert("查無此帳號");
+          break;
         default:
           alert("登入失敗: " + error.message);
       }
